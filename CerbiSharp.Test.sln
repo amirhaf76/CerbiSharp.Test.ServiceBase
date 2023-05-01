@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CerbiSharp.Infrastructure.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CerbiSharp.Test.ServiceBase", "SampleTest\CerbiSharp.Test.ServiceBase.csproj", "{1E7B627D-7E91-4F7F-A9C0-21E9A65FF2F4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleTest", "SampleTest", "{951C6D0F-E021-4278-AA89-B546E382AE2A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{951C6D0F-E021-4278-AA89-B546E382AE2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
