@@ -1,9 +1,9 @@
 ﻿using Autofac;
-using CerbiSharp.Templates.TestSample.Core.DIModules;
-using CerbiSharp.Templates.TestSample.Core.Logging;
+using CerbiSharp.Test.ServiceBase.Core.DIModules;
+using CerbiSharp.Test.ServiceBase.Core.Logging;
 using Divergic.Logging.Xunit;
 
-namespace CerbiSharp.Templates.TestSample.Core.AppConfigModel
+namespace CerbiSharp.Test.ServiceBase.Core.AppConfigModel
 {
     public class AppConfiguration
     {
