@@ -5,7 +5,7 @@
   "identity": "CerbiSharp.Test.ServiceBase",
   "name": "Service Base Automation Test",
   "shortName": "cerbiSharpTestServiceBase",
-  "sourceName": "CerbiSharp.Test.ServiceBase"
+  "sourceName": "CerbiSharp.Test.ServiceBase",
   "tags": {
     "language": "C#",
     "type": "project"
