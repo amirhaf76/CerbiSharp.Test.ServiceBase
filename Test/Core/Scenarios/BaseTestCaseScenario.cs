@@ -1,25 +1,36 @@
 ﻿using Autofac;
 using Autofac.Core;
 using CerbiSharp.Test.ServiceBase.Core.AppConfigModel;
-using Divergic.Logging.Xunit;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using Serilog.Extensions.Autofac.DependencyInjection;
 using Xunit.Abstractions;
 using Xunit.Extensions.Ordering;
 
 namespace CerbiSharp.Test.ServiceBase.Core.Scenarios
 {
-    public class BaseTestCaseScenario : LoggingTestsBase<BaseTestCaseScenario>, IAssemblyFixture<AppConfiguration>, IDisposable
+    public class BaseTestCaseScenario : IAssemblyFixture<AppConfiguration>, IDisposable
     {
-        protected readonly AppConfiguration _totalConfiguration;
         private readonly ILifetimeScope _scope;
 
+        protected readonly AppConfiguration _totalConfiguration;
+
         public BaseTestCaseScenario(AppConfiguration totalConfiguration, ITestOutputHelper testOutputHelper)
-            : base(testOutputHelper, totalConfiguration.LoggingConfig)
         {
             _totalConfiguration = totalConfiguration;
 
-            _scope = totalConfiguration.CreateScope(b => b.RegisterInstance<ILogger>(Logger));
+            _scope = _totalConfiguration.CreateScope(builder =>
+            {
+                var config = new ConfigurationBuilder()
+                               .SetBasePath(Environment.CurrentDirectory)
+                               .AddJsonFile("appconfigs.json")
+                               .Build();
+                builder.RegisterInstance<IConfiguration>(config);
+
+                builder.RegisterSerilog(new LoggerConfiguration().ReadFrom.Configuration(config).WriteTo.TestOutput(testOutputHelper));
+            });
         }
+
 
         protected T ResolveService<T>()
         {
@@ -31,11 +42,11 @@ namespace CerbiSharp.Test.ServiceBase.Core.Scenarios
             return _scope.Resolve<T>(parameters);
         }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
         {
-            _scope.Dispose();
+            GC.SuppressFinalize(this);
 
-            base.Dispose(disposing);
+            _scope.Dispose();
         }
     }
 }

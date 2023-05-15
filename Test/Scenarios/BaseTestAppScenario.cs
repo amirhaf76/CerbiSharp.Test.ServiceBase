@@ -1,6 +1,6 @@
 using CerbiSharp.Test.ServiceBase.Core.AppConfigModel;
 using CerbiSharp.Test.ServiceBase.Core.Scenarios;
-using CerbiSharp.Test.ServiceBase.Core.TestEnvironmentCore;
+using CerbiSharp.Test.ServiceBase.SettingsModels;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
@@ -8,33 +8,30 @@ using Xunit.Extensions.Ordering;
 
 namespace CerbiSharp.Test.ServiceBase.Scenarios
 {
-    [Order((int)ApiScenariosOrder.BaseTestAppScenario)]
+    [Order((int)ScenariosOrder.BaseTestAppScenario)]
     public class BaseTestAppScenario : BaseTestCaseScenario
     {
-        private readonly TestEnvironment _testEnvironment;
+        private readonly DelaySettings _delaySettings;
+        private readonly ILogger<BaseTestAppScenario> _logger;
 
         public BaseTestAppScenario(AppConfiguration totalConfiguration, ITestOutputHelper testOutputHelper) : base(totalConfiguration, testOutputHelper)
         {
-            _testEnvironment = ResolveService<TestEnvironment>();
+            _logger = ResolveService<ILogger<BaseTestAppScenario>>();
+            _delaySettings = ResolveService<DelaySettings>();
         }
 
         [Fact]
         public void TestSampleTestCase()
         {
-            _testEnvironment.AdminSettings.Should().NotBeNull();
-            _testEnvironment.DelaySettings.Should().NotBeNull();
+            _delaySettings.Should().NotBeNull();
 
-            _testEnvironment.DelaySettings.ShortDelay.Should().NotBe(TimeSpan.Zero);
-            _testEnvironment.DelaySettings.MediumDelay.Should().NotBe(TimeSpan.Zero);
-            _testEnvironment.DelaySettings.LongDelay.Should().NotBe(TimeSpan.Zero);
+            _delaySettings.ShortDelay.Should().NotBe(TimeSpan.Zero);
+            _delaySettings.MediumDelay.Should().NotBe(TimeSpan.Zero);
+            _delaySettings.LongDelay.Should().NotBe(TimeSpan.Zero);
 
-            _testEnvironment.AdminSettings.Domain.Should().NotBe(0);
-            _testEnvironment.AdminSettings.Username.Should().NotBeNullOrEmpty();
-            _testEnvironment.AdminSettings.ClientId.Should().NotBeNullOrEmpty();
+            _logger.LogInformation("{@delaySettings}", _delaySettings);
+            _logger.LogDebug("Simple test run correctly.");
 
-
-            var eventId = new EventId(45, "SimpleExample");
-            Logger.LogInformation(eventId, "Simple test run correctly.");
         }
     }
 }

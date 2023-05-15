@@ -11,5 +11,8 @@
     "ShortDelay": "00:00:01",
     "MediumDelay": "00:00:05",
     "LongDelay": "00:00:10"
+  },
+  "Serilog": {
+    "MinimumLevel": "Debug"
   }
 }

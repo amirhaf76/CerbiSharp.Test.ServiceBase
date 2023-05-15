@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using CerbiSharp.Test.ServiceBase.Core.DIModules;
-using CerbiSharp.Test.ServiceBase.Core.Logging;
-using Divergic.Logging.Xunit;
 
 namespace CerbiSharp.Test.ServiceBase.Core.AppConfigModel
 {
@@ -9,15 +7,12 @@ namespace CerbiSharp.Test.ServiceBase.Core.AppConfigModel
     {
         private readonly IContainer _container;
 
-        public LoggingConfig LoggingConfig { get; private set; }
 
         public AppConfiguration()
         {
             var builder = new ContainerBuilder();
 
             _container = RegisterDependencies(builder).Build();
-
-            LoggingConfig = new APITestLoggingConfig();
         }
 
         private static ContainerBuilder RegisterDependencies(ContainerBuilder builder)
